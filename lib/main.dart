@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
-import 'scrolling/scrolling_sliver_fab.dart';
+import 'scrolling/tab_controller.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ScrollingSliverFabSample(),
+      home: HomePage(),
     );
   }
 }

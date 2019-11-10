@@ -98,7 +98,7 @@ class CollapsingFab extends StatelessWidget {
         child: RawMaterialButton(
           onPressed: () {},
           shape: CircleBorder(),
-          child: Icon(CircleBorder
+          child: Icon(
             Icons.add,
             color: Colors.white,
           ),

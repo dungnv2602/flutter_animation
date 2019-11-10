@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               floating: true,
               pinned: true,
               forceElevated: innerBoxIsScrolled,
-              expandedHeight: 2000,
+              expandedHeight: 400,
               flexibleSpace: Image.asset(
                 'assets/coffee.jpg',
                 fit: BoxFit.cover,
