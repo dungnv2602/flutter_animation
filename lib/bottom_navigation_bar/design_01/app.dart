@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'animated_bottom_tab_bar.dart';
-import 'consts.dart';
 
 
 /// Source: https://dribbble.com/shots/5419022-Tab

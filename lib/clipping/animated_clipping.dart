@@ -5,7 +5,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   AnimationController animationController;
   Animation<double> firstEndPointAnimation;
   Animation<double> firstControlPointAnimation;
@@ -15,9 +16,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void initState() {
     super.initState();
 
-    animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 1000));
+    animationController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 1000));
 
-    final curvedAnimation = CurvedAnimation(parent: animationController, curve: Curves.easeInOut);
+    final curvedAnimation =
+        CurvedAnimation(parent: animationController, curve: Curves.easeInOut);
 
     firstEndPointAnimation = Tween<double>(
       begin: 2.25,
@@ -61,7 +64,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           return ClipPath(
             child: child,
             clipper: AnimatedBottomWave(
-                firstEndPointAnimation.value, firstControlPointAnimation.value, secondControlPointAnimation.value),
+                firstEndPointAnimation.value,
+                firstControlPointAnimation.value,
+                secondControlPointAnimation.value),
           );
         },
       ),
@@ -75,24 +80,31 @@ class AnimatedBottomWave extends CustomClipper<Path> {
   final double secondControlPointAnimationValue;
 
   AnimatedBottomWave(
-      this.firstEndPointAnimationValue, this.firstControlPointAnimationValue, this.secondControlPointAnimationValue);
+      this.firstEndPointAnimationValue,
+      this.firstControlPointAnimationValue,
+      this.secondControlPointAnimationValue);
 
   @override
   Path getClip(Size size) {
     var path = Path();
     path.lineTo(0.0, size.height - 30.0);
 
-    var firstControlPoint = Offset(size.width / 4.0, size.height - firstControlPointAnimationValue);
+    var firstControlPoint =
+        Offset(size.width / 4.0, size.height - firstControlPointAnimationValue);
 
-    var firstEndPoint = Offset(size.width / firstEndPointAnimationValue, size.height - 30.0);
+    var firstEndPoint =
+        Offset(size.width / firstEndPointAnimationValue, size.height - 30.0);
 
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
+    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
+        firstEndPoint.dx, firstEndPoint.dy);
 
-    var secondControlPoint = Offset(size.width - (size.width / 3.25), size.height - secondControlPointAnimationValue);
+    var secondControlPoint = Offset(size.width - (size.width / 3.25),
+        size.height - secondControlPointAnimationValue);
 
     var secondEndPoint = Offset(size.width, size.height - 30.0);
 
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
+    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
+        secondEndPoint.dx, secondEndPoint.dy);
 
     path.lineTo(size.width, 0.0);
     path.close();
@@ -103,6 +115,6 @@ class AnimatedBottomWave extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) {
 //    return this != oldClipper;
-  return false;
+    return false;
   }
 }

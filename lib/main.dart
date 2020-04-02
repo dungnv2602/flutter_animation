@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart' show timeDilation;
-import 'scrolling/tab_controller.dart';
+import 'simulations/spring_simulation_sample.dart';
 
 void main() {
   runApp(MyApp());

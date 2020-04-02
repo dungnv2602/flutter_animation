@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart' as vector;
-import 'tab_item.dart';
-import 'consts.dart';
 
 class AnimatedBottomTabBar extends StatefulWidget {
   final Function(int) onPressed;
@@ -12,7 +10,8 @@ class AnimatedBottomTabBar extends StatefulWidget {
   _AnimatedBottomTabBarState createState() => _AnimatedBottomTabBarState();
 }
 
-class _AnimatedBottomTabBarState extends State<AnimatedBottomTabBar> with TickerProviderStateMixin {
+class _AnimatedBottomTabBarState extends State<AnimatedBottomTabBar>
+    with TickerProviderStateMixin {
   AnimationController _animationController;
   Tween<double> _positionTween;
   Animation<double> _positionAnimation;
@@ -31,38 +30,44 @@ class _AnimatedBottomTabBarState extends State<AnimatedBottomTabBar> with Ticker
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: ANIMATION_DURATION));
+    _animationController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: ANIMATION_DURATION));
 
-    _fadeOutController = AnimationController(vsync: this, duration: Duration(milliseconds: (ANIMATION_DURATION ~/ 5)));
+    _fadeOutController = AnimationController(
+        vsync: this,
+        duration: Duration(milliseconds: (ANIMATION_DURATION ~/ 5)));
 
     _positionTween = Tween<double>(begin: 0.0, end: 0.0);
-    _positionAnimation = _positionTween.animate(CurvedAnimation(parent: _animationController, curve: Curves.easeOut))
+    _positionAnimation = _positionTween.animate(
+        CurvedAnimation(parent: _animationController, curve: Curves.easeOut))
       ..addListener(() {
         setState(() {});
       });
 
-    _fadeFabOutAnimation =
-        Tween<double>(begin: 1.0, end: 0.0).animate(CurvedAnimation(parent: _fadeOutController, curve: Curves.easeOut))
-          ..addListener(() {
-            setState(() {
-              fabIconAlpha = _fadeFabOutAnimation.value;
-            });
-          })
-          ..addStatusListener((status) {
-            if (status == AnimationStatus.completed) {
-              setState(() {
-                activeIcon = nextIcon;
-              });
-            }
+    _fadeFabOutAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
+        CurvedAnimation(parent: _fadeOutController, curve: Curves.easeOut))
+      ..addListener(() {
+        setState(() {
+          fabIconAlpha = _fadeFabOutAnimation.value;
+        });
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          setState(() {
+            activeIcon = nextIcon;
           });
+        }
+      });
 
-    _fadeFabInAnimation = Tween<double>(begin: 0.0, end: 1.0)
-        .animate(CurvedAnimation(parent: _animationController, curve: Interval(0.8, 1.0, curve: Curves.easeOut)))
-          ..addListener(() {
-            setState(() {
-              fabIconAlpha = _fadeFabInAnimation.value;
-            });
-          });
+    _fadeFabInAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+            parent: _animationController,
+            curve: Interval(0.8, 1.0, curve: Curves.easeOut)))
+      ..addListener(() {
+        setState(() {
+          fabIconAlpha = _fadeFabInAnimation.value;
+        });
+      });
   }
 
   _initAnimationAndStart(double from, double to) {
@@ -166,7 +171,10 @@ class _AnimatedBottomTabBarState extends State<AnimatedBottomTabBar> with Ticker
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 shape: BoxShape.circle,
-                                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 8.0)],
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black12, blurRadius: 8.0)
+                                ],
                               ),
                             ),
                           ),
@@ -232,7 +240,8 @@ class HalfPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final Rect beforeRect = Rect.fromLTWH(0, (size.height / 2) - 10, 10, 10);
     final Rect largeRect = Rect.fromLTWH(10, 0, size.width - 20, 70);
-    final Rect afterRect = Rect.fromLTWH(size.width - 10, (size.height / 2) - 10, 10, 10);
+    final Rect afterRect =
+        Rect.fromLTWH(size.width - 10, (size.height / 2) - 10, 10, 10);
 
     final path = Path();
     path.arcTo(beforeRect, vector.radians(0), vector.radians(90), false);
@@ -251,3 +260,109 @@ class HalfPainter extends CustomPainter {
     return this != oldDelegate;
   }
 }
+
+class TabItem extends StatefulWidget {
+  final String title;
+  final IconData iconData;
+  final bool selected;
+  final Function callbackFunction;
+
+  const TabItem(
+      {Key key,
+      @required this.title,
+      @required this.iconData,
+      @required this.selected,
+      @required this.callbackFunction})
+      : super(key: key);
+
+  @override
+  _TabItemState createState() => _TabItemState();
+}
+
+class _TabItemState extends State<TabItem> {
+  double iconYAlign = ICON_ON;
+  double textYAlign = TEXT_OFF;
+  double iconAlpha = ALPHA_ON;
+
+  _setIconTextAlpha() {
+    setState(() {
+      iconYAlign = (widget.selected) ? ICON_OFF : ICON_ON;
+      textYAlign = (widget.selected) ? TEXT_ON : TEXT_OFF;
+      iconAlpha = (widget.selected) ? ALPHA_OFF : ALPHA_ON;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _setIconTextAlpha();
+  }
+
+  @override
+  void didUpdateWidget(TabItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _setIconTextAlpha();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Container(
+            height: double.infinity,
+            width: double.infinity,
+            child: AnimatedAlign(
+              duration: Duration(milliseconds: ANIMATION_DURATION),
+              alignment: Alignment(0, textYAlign),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  widget.title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            height: double.infinity,
+            width: double.infinity,
+            child: AnimatedAlign(
+              curve: Curves.easeIn,
+              alignment: Alignment(0, iconYAlign),
+              duration: Duration(milliseconds: ANIMATION_DURATION),
+              child: AnimatedOpacity(
+                opacity: iconAlpha,
+                duration: Duration(milliseconds: ANIMATION_DURATION),
+                child: IconButton(
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    padding: const EdgeInsets.all(0.0),
+                    alignment: Alignment(0, 0),
+                    icon: Icon(
+                      widget.iconData,
+                      color: PURPLE,
+                    ),
+                    onPressed: () {
+                      widget.callbackFunction();
+                    }),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+const double ICON_OFF = -3;
+const double ICON_ON = 0;
+const double TEXT_OFF = 3;
+const double TEXT_ON = 1;
+const double ALPHA_OFF = 0;
+const double ALPHA_ON = 1;
+const int ANIMATION_DURATION = 300;
+const Color PURPLE = Color(0xFF8c77ec);
