@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
         child: GestureDetector(
           onPanUpdate: (details) {
             setState(() {
-              final RenderBox box = context.findRenderObject();
+              final RenderBox box = context.findRenderObject() as RenderBox;
               final offset = box.globalToLocal(details.globalPosition)
                 // exclude the Y coordinate of the AppBar
                 ..translate(0.0, -AppBar().preferredSize.height);

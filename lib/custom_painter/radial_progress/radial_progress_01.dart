@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
-  Animation animation;
+  Animation<double> animation;
 
   @override
   void initState() {

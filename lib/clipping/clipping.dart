@@ -1,5 +1,22 @@
 import 'package:flutter/material.dart';
 
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Material App',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Material App Bar'),
+        ),
+        body: HomePage(),
+      ),
+    );
+  }
+}
+
 class HomePage extends StatelessWidget {
   const HomePage({Key key}) : super(key: key);
 
@@ -11,13 +28,33 @@ class HomePage extends StatelessWidget {
   }
 }
 
+class MenuIcon extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        alignment: const FractionalOffset(0, 2 / 3),
+        width: 40,
+        height: 60,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: kElevationToShadow[6],
+          shape: BoxShape.circle,
+        ),
+        child: Icon(Icons.close),
+      ),
+    );
+  }
+}
+
 class WavyHeaderImage extends StatelessWidget {
   const WavyHeaderImage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ClipPath(
-      child: Image.asset('assets/coffee.jpg'),
+      child: Image.asset('assets/images/base/coffee_header.jpeg'),
+      clipBehavior: Clip.antiAlias,
       clipper: BottomWaveClipper(),
     );
   }
@@ -27,7 +64,7 @@ class BottomWaveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
-    return multipleRoundedCurvesPath(size, path);
+    return bottomWavePath1(size, path);
   }
 
   @override

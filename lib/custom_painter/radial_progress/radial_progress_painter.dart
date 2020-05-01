@@ -16,8 +16,8 @@ class RadialProgressPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Size constrainedSize =
-        size - Offset(this.strokeWith, this.strokeWith);
+    final constrainedSize = size - Offset(strokeWith, strokeWith) as Size;
+
     final shortestSide =
         Math.min(constrainedSize.width, constrainedSize.height); // diameter
 
@@ -26,7 +26,7 @@ class RadialProgressPainter extends CustomPainter {
 
     /// start at the top. 0 radians represents the right edge
     final double startAngle = -Math.pi / 2;
-    final double sweepAngle = (Math.pi * 2 * (currentProgress));
+    final double sweepAngle = Math.pi * 2 * currentProgress;
 
     /// if backgroundColor != null => paint background
     /// else do nothing

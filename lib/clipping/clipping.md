@@ -45,7 +45,7 @@ Adds a cubic bezier segment that curves from the current point to the given poin
 
 ### conicTo
 
-**conicTo** is also basically acting like a quadraticBeizerTo wit the only difference being the **weight variable**.
+**conicTo** is also basically acting like a quadraticBeizerTo with the only difference being the **weight variable**.
 
 - If the weight is bigger than 1, the drawn shape is a hyperbola.
 - If the weight is 1 then drawn shape is parabola

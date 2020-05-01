@@ -69,8 +69,8 @@ class PathPainter extends CustomPainter {
 
   void addArcPath(Path path, Size size) {
     /// e.g. For drawing an arc starting from left middle edge to top edge of an oval, we will start from 3.14 which is the radian value for 180 and add 1.57 which is the radian value for 90.
-    path.addArc(Rect.fromLTWH(0, 0, size.width, size.height),
-        Angle.halfTurn().radians, Angle.quarterTurn().radians);
+    // path.addArc(Rect.fromLTWH(0, 0, size.width, size.height),
+    //     Angle.halfTurn().radians, Angle.quarterTurn().radians);
   }
 
   void addOvalPath(Path path, Size size) {
